@@ -37,3 +37,30 @@ data4 <- data3 |>
 data4 |> 
     mutate( dist = abs(start - stop) ) |> 
     summarise( sum(dist))
+
+
+
+# Part one: The first solution -> gives one star :)
+stop_count <- data |>
+    group_by(stop) |> 
+    summarise(
+        count = n()
+    )
+
+## Part two:
+# How often each in start, appear/is counted in stop
+start_match_counter <- select( data, start) |> w
+    left_join(
+        stop_count, join_by(start == stop)
+    ) |> 
+    replace_na(list(count = 0 )) |> 
+    mutate(
+        score_increase = count*start
+    )
+
+
+# Summing up: star two!
+start_match_counter |> 
+    summarise(
+        sum = sum(score_increase)
+    )
